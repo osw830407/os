@@ -7,7 +7,7 @@
 - include_tasks: tasks/05_02_config_crontab.yml
 - include_tasks: tasks/06_config_securitypolicy.yml
 - include_tasks: tasks/07_config_BannerMessages.yml
-- include_tasks: tasks/08_config_FTPsecurity.yml
+#- include_tasks: tasks/08_config_FTPsecurity.yml
 - include_tasks: tasks/09_config_password.yml
 - include_tasks: tasks/10_config_filepermission.yml
 - include_tasks: tasks/11_config_logrotate.yml
