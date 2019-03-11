@@ -1,0 +1,5 @@
+---
+ - name: Execute common and apache role
+   hosts: all
+   roles:
+     - rhel7_post_config
