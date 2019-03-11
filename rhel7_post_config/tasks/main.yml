@@ -10,10 +10,10 @@
 #- include_tasks: tasks/08_config_FTPsecurity.yml
 - include_tasks: tasks/09_config_password.yml
 #- include_tasks: tasks/10_config_filepermission.yml
-- include_tasks: tasks/11_config_logrotate.yml
+#- include_tasks: tasks/11_config_logrotate.yml
 #- include_tasks: tasks/12_config_DNS.yml
 #- include_tasks: tasks/13_config_profiletuning.yml
 - include_tasks: tasks/14_config_systemservice.yml
-- include_tasks: tasks/15_install_nkia.yml
-- include_tasks: tasks/16_install_agent.yml
-- include_tasks: tasks/17_install_hsrm.yml
+#- include_tasks: tasks/15_install_nkia.yml
+#- include_tasks: tasks/16_install_agent.yml
+#- include_tasks: tasks/17_install_hsrm.yml
