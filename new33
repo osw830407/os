@@ -1,0 +1,9 @@
+  - name: copy logrotate.conf
+    template:
+      src: templates/logrotate.conf.j2
+      dest: /etc/logrotate.conf
+ 
+  - name: copy syslog
+    template:
+      src: templates/syslog.j2
+      dest: /etc/logrotate.d/syslog
