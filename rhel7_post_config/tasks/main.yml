@@ -9,7 +9,7 @@
 - include_tasks: tasks/07_config_BannerMessages.yml
 #- include_tasks: tasks/08_config_FTPsecurity.yml
 - include_tasks: tasks/09_config_password.yml
-- include_tasks: tasks/10_config_filepermission.yml
+#- include_tasks: tasks/10_config_filepermission.yml
 - include_tasks: tasks/11_config_logrotate.yml
 - include_tasks: tasks/12_config_DNS.yml
 - include_tasks: tasks/13_config_profiletuning.yml
