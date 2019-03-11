@@ -1,0 +1,16 @@
+
+  - name: copy issue banner
+    template:
+      src: templates/issue.j2
+      dest: /etc/issue
+
+  - name: copy issue.net banner
+    template:
+      src: templates/issue.net.j2
+      dest: /etc/issue.net
+
+  - name: copy welcome.msg banner
+    template:
+      src: templates/welcome.msg.j2
+      dest: /etc/welcome.msg
+

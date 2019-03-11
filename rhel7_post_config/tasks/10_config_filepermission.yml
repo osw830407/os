@@ -1,0 +1,107 @@
+  - name: Check that the /etc/cron.allow exists
+    stat:
+      path: /etc/cron.allow
+    register: stat_result
+  
+  - name: cron.allow  permissions
+    file:
+      path: /etc/cron.allow
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+
+  - name: Check that the /etc/cron.deny exists
+    stat:
+      path: /etc/cron.deny
+    register: stat_result
+
+  - name: cron.deny permissions
+    file:
+      path: /etc/cron.deny
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+
+  - name: Check that the /etc/at.allow exists
+    stat:
+      path: /etc/at.allow
+    register: stat_result
+
+  - name: at.allow  permissions
+    file:
+      path: /etc/at.allow
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+
+  - name: Check that the /etc/at.deny exists
+    stat:
+      path: /etc/at.deny
+    register: stat_result
+
+  - name: at.deny  permissions
+    file:
+      path: /etc/at.deny
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+
+  - name: Check that the /etc/cron.d/cron.allow exists
+    stat:
+      path: /etc/cron.d/cron.allow
+    register: stat_result
+
+  - name: cron.allow  permissions
+    file:
+      path: /etc/cron.d/cron.allow
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+ 
+  - name: Check that the /etc/cron.d/cron.deny exists
+    stat:
+      path: /etc/cron.d/cron.deny
+    register: stat_result
+
+  - name: cron.deny  permissions
+    file:
+      path: /etc/cron.d/cron.deny
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+
+  - name: Check that the /etc/cron.d/at.allow exists
+    stat:
+      path: /etc/cron.d/at.allow
+    register: stat_result
+
+  - name: cron.d_at.allow  permissions
+    file:
+      path: /etc/cron.d/at.allow
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+
+  - name: Check that the /etc/cron.d/at.deny exists
+    stat:
+      path: /etc/cron.d/at.deny
+    register: stat_result
+
+  - name: cron.d_at.deny  permissions
+    file:
+      path: /etc/cron.d/at.deny
+      owner: root
+      group: root
+      mode: 0600
+    when: stat_result.stat.exists == True
+ 
+  - name: fine .rhosts permissions
+    shell: find / -name '.rhosts' -exec chmod 600 {} \;
+

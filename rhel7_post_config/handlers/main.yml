@@ -1,0 +1,8 @@
+---
+# handlers file for rhel7_post_config
+  - name: restart service service
+    service:
+      name: service name
+      state: restarted
+      enabled: yes
+

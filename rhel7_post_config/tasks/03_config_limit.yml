@@ -1,0 +1,10 @@
+
+  - name: copy 20-nproc.conf
+    template:
+      src: templates/20-nproc.conf.j2
+      dest: /etc/security/limits.d/20-nproc.conf
+ 
+  - name: copy 20-nproc.conf
+    template:
+      src: templates/limits.conf.j2
+      dest: /etc/security/limits.conf

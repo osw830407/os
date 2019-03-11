@@ -1,0 +1,14 @@
+  
+  - name: service starssss
+    service_facts: 
+  
+  - name: service stop
+    systemd:
+      name: "{{ item }}"
+      state: stopped
+      enabled: no
+    with_items: "{{ Stop_Service }}"
+    ignore_errors: True
+    when: "{{ 'item' }} in services"
+
+

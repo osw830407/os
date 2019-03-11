@@ -1,0 +1,13 @@
+
+  - name: copy vsftpd.conf
+    template:
+      src: templates/vsftpd.conf.j2
+      dest: /etc/vsftpd/vsftpd.conf
+ 
+  - name: vsftpd service start
+    systemd:
+      name: vsftpd
+      state: started
+      enabled: yes
+
+

@@ -1,0 +1,18 @@
+---
+# defaults file for rhel7_post_config
+
+##Chrony Server1
+ChronyServer1: 172.31.96.199
+
+##Chrony Server2
+ChronyServer2: 172.31.96.200
+
+## Pohang DNS
+NameServer1: 172.19.60.8
+
+## Kwangyang DNS
+NameServer2: 172.29.9.4
+
+## Chungju DNS
+NameServer3: 172.30.9.9
+

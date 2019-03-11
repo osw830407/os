@@ -1,0 +1,74 @@
+  - name: Creates directory
+    file: 
+      path: /opt/nkia/
+      state: directory
+
+  - name: nkia file copy 
+    copy:
+      src: agents/nkia/NNPAgent_SMS_Linux64_3.4_6.0.3_9.tar.gz
+      dest: /opt/nkia
+  
+  - name: Unarchive file
+    unarchive:
+      src: "/opt/nkia/NNPAgent_SMS_Linux64_3.4_6.0.3_9.tar.gz"
+      dest: "/opt/nkia/"
+      remote_src: yes    
+    
+  - name: nkia config file copy
+    shell: /bin/cp -arf /opt/nkia/NNPAgent /root/
+
+  - name: ansible_all_ipv4_addresses
+    debug: 
+      var: "ansible_all_ipv4_addresses"
+  
+  - name: ansible_default_ipv4.address
+    debug: 
+      var: "ansible_default_ipv4.address"
+  
+  - debug:
+      msg: "systme {{ansible_default_ipv4.address}} ..."
+      msg: "{{ansible_distribution}}"
+      msg: "{{ansible_distribution_release}}"
+      msg: "{{ansible_distribution_version}}"
+#      msg: "systme {{ ansible_hostname }} ..."
+#      msg: "systme {{ansible_default_ipv4.address.split('.')[0]}} ..."
+#      msg: "systme {{ansible_default_ipv4.address.split('.')[1]}} ..."
+#      msg: "systme {{ansible_default_ipv4.address.split('.')[0]}}.{{ansible_default_ipv4.address.split('.')[1]}}"
+ 
+      
+  - name: 172.* install
+    command: "/usr/bin/sh /opt/nkia/AgentInstall.sh -magent auip=172.31.47.120 makey={{ ansible_hostname }} -start -addrc"
+    when: 
+      ansible_default_ipv4.address.split('.')[0] == "172"
+
+  - name: 10.* install
+    command: "/usr/bin/sh /opt/nkia/AgentInstall.sh -magent auip=10.132.11.53 makey={{ ansible_hostname }} -start -addrc"
+    when: 
+      ansible_default_ipv4.address.split('.')[0] == "10"
+  
+  - name: 211.60* install
+    command: "/usr/bin/sh /opt/nkia/AgentInstall.sh -magent auip=211.60.10.227 makey={{ ansible_hostname }} -start -addrc"
+    when: 
+      ansible_default_ipv4.address.split('.')[0] == "211" and ansible_default_ipv4.address.split('.')[1] == "60"
+
+  - name: 203.246* install
+    command: "/usr/bin/sh /opt/nkia/AgentInstall.sh -magent auip=203.246.186.108 makey={{ ansible_hostname }} -start -addrc"
+    when: 
+      ansible_default_ipv4.address.split('.')[0] == "203" and ansible_default_ipv4.address.split('.')[1] == "246"
+
+  - name: 211.119* install
+    command: "/usr/bin/sh /opt/nkia/AgentInstall.sh -magent auip=211.119.174.215 makey={{ ansible_hostname }} -start -addrc"
+    when: 
+      ansible_default_ipv4.address.split('.')[0] == "211" and ansible_default_ipv4.address.split('.')[1] == "119"
+  
+  - name: /opt/nkia/log Creates directory
+    file: 
+      path: /opt/nkia/log 
+      state: directory
+
+  - name: /opt/nkia/log permision
+    file:
+      path: /opt/nkia/log
+      mode: 0777
+      recurse: yes
+

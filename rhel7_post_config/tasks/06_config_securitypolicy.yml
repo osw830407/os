@@ -1,0 +1,4 @@
+
+  - name: passwd config
+    shell: /bin/cat /etc/passwd |  /bin/grep -v ^root | /bin/awk -F':' '($3=='0'||$4=='0'){ print "usermod -g sys " $1 }' | sh
+

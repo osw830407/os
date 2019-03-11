@@ -1,0 +1,13 @@
+
+  - name: copy chrony.conf
+    template:
+      src: templates/chrony.conf.j2
+      dest: /etc/chrony.conf
+ 
+  - name: chrony service start
+    systemd:
+      name: chronyd
+      state: started
+      enabled: yes
+
+

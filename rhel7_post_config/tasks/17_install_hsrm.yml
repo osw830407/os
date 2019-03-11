@@ -1,0 +1,37 @@
+  - name: /tmp/hsrm Creates directory
+    file: 
+      path: /tmp/hsrm
+      state: directory
+
+  - name: install_v8.sh file copy
+    copy:
+      src: agents/hsrm/install_v8.sh
+      dest: /tmp/hsrm/
+
+  - name: Ag_Linux_AEV8.tar file copy
+    copy:
+      src: agents/hsrm/Ag_Linux_AEV8.tar
+      dest: /tmp/hsrm/
+
+  - name: Creates directory
+    file: 
+      path: /opt/HSRM
+      state: directory
+
+  - name: install_v8.sh start
+    shell: /usr/bin/sh /tmp/hsrm/install_v8.sh
+
+  - cron:
+      name: yum autoupdate
+      minute: 10
+      hour: 0
+      user: root
+      job: "/usr/bin/sh /opt/HSRM/fletaAgent/fletaStart.sh > /dev/null 2>&1"
+
+
+#  - name: Unarchive file Ag_Linux_AEV8.tar
+#    unarchive:
+#      src: "/tmp/hsrm/Ag_Linux_AEV8.tar"
+#      dest: "/opt/HSRM/"
+#      remote_src: yes
+

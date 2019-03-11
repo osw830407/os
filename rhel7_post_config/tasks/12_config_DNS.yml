@@ -1,0 +1,6 @@
+
+  - name: copy DNS Setup
+    template:
+      src: templates/resolv.conf.j2
+      dest: /etc/resolv.conf
+ 

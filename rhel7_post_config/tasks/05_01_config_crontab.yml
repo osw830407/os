@@ -1,0 +1,18 @@
+
+  - name: copy crontab copy
+    template:
+      src: templates/crontab.j2
+      dest: /etc/crontab
+
+  - name: copy crond copy
+    template:
+      src: templates/crond.j2
+      dest: /etc/sysconfig/crond
+ 
+  - name: sysstat permissions
+    file:
+      path: /etc/crontab
+      owner: root
+      group: root
+      mode: 0644
+

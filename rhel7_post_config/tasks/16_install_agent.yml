@@ -1,0 +1,212 @@
+  - name: Creates directory
+    file: 
+      path: /tmp/imagent
+      state: directory
+
+  - name: CACM file copy RHEL6
+    copy:
+      src: agents/imagent/CACM_LINUX_64BIT_1281_RO78593.tar.Z
+      dest: /tmp/imagent
+    when: 
+      ansible_distribution_major_version == "6"
+
+  - name: CACM file copy RHEL7.3
+    copy:
+      src: agents/imagent/CACM_LINUX_64BIT_only_RHEL73_RO93741.tar.Z
+      dest: /tmp/imagent
+    when: 
+      ansible_distribution_version == "7.3"
+  
+  - name: CACM file copy RHEL7.4
+    copy:
+      src: agents/imagent/CACM_LINUX_64BIT_only_RHEL74_SO00290.tar.Z
+      dest: /tmp/imagent
+    when: 
+      ansible_distribution_version == "7.4"
+  
+  - name: CACM file copy RHEL7.5
+    copy:
+      src: agents/imagent/CACM_LINUX_64BIT_only_RHEL75_SO01532.tar.Z
+      dest: /tmp/imagent
+    when: 
+      ansible_distribution_version == "7.5"
+ 
+  - name: Unarchive file RHEL6
+    unarchive:
+      src: "/tmp/imagent/CACM_LINUX_64BIT_1281_RO78593.tar.Z"
+      dest: "/tmp/imagent/"
+      remote_src: yes    
+    when:
+      ansible_distribution_major_version == "6"
+
+  - name: Unarchive file RHEL7.3
+    unarchive:
+      src: "/tmp/imagent/CACM_LINUX_64BIT_only_RHEL73_RO93741.tar.Z"
+      dest: "/tmp/imagent/"
+      remote_src: yes    
+    when:
+      ansible_distribution_version == "7.3"
+
+  - name: Unarchive file RHEL7.4
+    unarchive:
+      src: "/tmp/imagent/CACM_LINUX_64BIT_only_RHEL74_SO00290.tar.Z"
+      dest: "/tmp/imagent/"
+      remote_src: yes    
+    when:
+      ansible_distribution_version == "7.4"
+
+  - name: Unarchive file RHEL7.5
+    unarchive:
+      src: "/tmp/imagent/CACM_LINUX_64BIT_only_RHEL75_SO01532.tar.Z"
+      dest: "/tmp/imagent/"
+      remote_src: yes    
+    when:
+      ansible_distribution_version == "7.5"
+ 
+  - name: install* adding "+x"
+    file: 
+      dest: /tmp/imagent/install_base
+      mode: a+x
+
+  - name: autocfg file copy
+    copy:
+      src: agents/imagent/autocfg
+      dest: /tmp/imagent
+
+  - name: Check seos.ini exists
+    stat:
+      path: /etc/seos.ini
+    register: stat_result
+
+  - name: agent install
+    shell: /tmp/imagent/install_base -command proceed -d /opt/imagent -autocfg /tmp/imagent/autocfg -verbose
+    when: stat_result.stat.exists == False 
+  
+  - name: symlink /usr/seos
+    file: 
+      path: /usr/seos
+      src: /opt/imagent
+      state: link
+
+  - name: file copy
+    copy:
+      src: /opt/imagent/samples/system.init/LINUX/S95seos
+      dest: /opt/imagent/bin/
+      remote_src: yes
+
+  - name: symlink /etc/rc.d/rc5.d/S95seos
+    file: 
+      path: /etc/rc.d/rc5.d/S95seos
+      src: /opt/imagent/bin/S95seos
+      state: link
+
+  - name: /opt/imagent/bin/S95seos permision
+    file:
+      path: /opt/imagent/bin/S95seos
+      mode: 0555
+
+#  - name: symlink /usr/bin/ksh
+#    file: 
+#      path: /usr/bin/ksh
+#      src: /bin/ksh
+#      state: link
+#      force: yes
+  
+  - name: checking /etc/shells
+    shell: cat /etc/shells | grep "/usr/bin/ksh" | wc -l
+    register: shells_grep
+
+  - debug: 
+      msg: "{{ shells_grep.stdout }}"
+
+  - name: adding /usr/bin/ksh
+    lineinfile: 
+      dest: /etc/shells 
+      line: "/usr/bin/ksh"
+    when: shells_grep.stdout == "0"
+
+  - name: group add imgrp
+    group:
+      name: imgrp
+      gid: 9498
+      state: present 
+
+  - name: group add sys_adm
+    group:
+      name: sys_adm
+      gid: 9402
+      state: present 
+
+  - name: group add db_adm
+    group:
+      name: db_adm
+      gid: 9403
+      state: present 
+        
+  - name: group add im_adm
+    group:
+      name: im_adm
+      gid: 9404
+      state: present 
+
+  - name: group add was_adm
+    group:
+      name: was_adm
+      gid: 9405
+      state: present 
+
+  - name: group add eai_adm
+    group:
+      name: eai_adm
+      gid: 9407
+      state: present 
+
+  - name: group add develop
+    group:
+      name: develop
+      gid: 9499
+      state: present 
+
+  - name: adding user imadmin
+    user: 
+      name: imadmin
+      group: imgrp
+      shell: /usr/bin/ksh
+      password: '$6$nw0AoKJ4$CQLHYjZULpMwxVToeuHx6L0b2yVTnyTVNdyrUr0FWsxKnyAdysRZYBW9o9NBuN8mUEVAJEAt6h6v4GA5HpS3r1'
+      uid: 9401
+      append: yes
+
+  - name: /home/imadmin/.ssh Creates directory
+    file:
+      path: /home/imadmin/.ssh
+      state: directory
+      owner: imadmin
+      group: imgrp
+  
+  - name: ssh_verification.sh file copy
+    copy:
+      src: agents/imagent/ssh_verification.sh
+      dest: /home/imadmin/.ssh
+
+  - name: Unarchive file RHEL7.3
+    unarchive:
+      src: "/home/imadmin/.ssh/ssh_verification.sh"
+      dest: "/home/imadmin/.ssh/"
+      remote_src: yes    
+  
+#  - name: shell test
+#    shell: "/usr/bin/tar xvf /home/imadmin/.ssh/ssh_verification.sh /home/imadmin/.ssh/"
+
+#- name: Creates directory
+#  file:
+#    path: /src/www
+#    state: directory
+#    owner: www-data
+#    group: www-data
+#    mode: 0775
+
+#  - name: etupdate-imadmin ssh key copy
+#    shell: su - imadmin && mkdir /home/imadmin/.ssh && scp -P 22 imadmin@172.31.75.72:/home/imadmin/.ssh/ssh_keys/ssh_verification.sh /home/imadmin/.ssh && cd /home/imadmin/.ssh/; tar -xvf ssh_verification.sh && scp -P 22 imadmin@172.31.75.72:/home/collect/eTupdate.ssh /home/imadmin/ && scp -P 22 imadmin@172.31.75.72:/home/collect/*.sh /home/imadmin/
+
+
+

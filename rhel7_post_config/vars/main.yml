@@ -1,0 +1,29 @@
+---
+# vars file for rhel7_post_config
+Stop_Service:
+  - cups.service
+  - cups.path
+  - cups.socket
+  - cups-browsed.service
+  - avahi-daemon.service
+  - avahi-daemon.socket
+  - postfix.service
+  - sendmail.service
+  - bluetooth.service
+  - NetworkManager.service
+  - dnsmasq.service
+
+#Disable_Service:
+#  - cups.service
+#  - cups.path
+#  - cups.socket
+#  - cups-browsed.service
+#  - avahi-daemon.service
+#  - avahi-daemon.socket
+#  - postfix.service
+#  - sendmail.service
+#  - bluetooth.service
+#  - NetworkManager.service
+#  - dnsmasq.service
+
+

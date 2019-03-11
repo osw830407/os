@@ -1,0 +1,13 @@
+
+  - name: copy sysstat
+    template:
+      src: templates/sysstat.j2
+      dest: /etc/cron.d/sysstat
+ 
+  - name: sysstat permissions
+    file:
+      path: /etc/cron.d/sysstat
+      owner: root
+      group: root
+      mode: 0644
+

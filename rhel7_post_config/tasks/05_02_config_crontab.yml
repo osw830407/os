@@ -1,0 +1,19 @@
+  - name: crontab config change
+    replace:
+      path: /etc/crontab
+      regexp: 'MAILTO=root'
+      replace: 'MAILTO=""'
+
+  - name: crond config change
+    replace:
+      path: /etc/sysconfig/crond
+      regexp: '^CRONDARGS=$'
+      replace: '#CRONDARGS=\nCRONDARGS=-s -m off'
+
+  - name: sysstat permissions
+    file:
+      path: /etc/crontab
+      owner: root
+      group: root
+      mode: 0644
+
